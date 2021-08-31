@@ -1,5 +1,6 @@
 # [LSA 2019 Satellite Workshop <br> Tools for Reproducible Research in Linguistics](https://www.linguisticsociety.org/content/2019-annual-meeting-satellite-workshop-tools-reproducible-research-linguistics) 
 
+These materials were originally created by [Bradley McDonnell](http://www.bradleymcdonnell.org), [Na-Rae Han](http://www.pitt.edu/~naraehan/), and [Eve Okura Koller](https://evekoller.com/) for a 2019 workshop; the original materials are [here](https://github.com/mcdonn/LSA2019-Reproducible-Research). The repository you're looking at right now contains these materials as lightly adapted by [Dan Villarreal](https://www.linguistics.pitt.edu/people/dan-villarreal). Thanks to the original authors for making these materials available to be reused.
 
 
 ## Basics

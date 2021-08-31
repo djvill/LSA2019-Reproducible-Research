@@ -1,6 +1,6 @@
 # Introduction to Git
 
-This tutorial has been lightly adapted by Dan Villarreal (University of Pittsburgh) to update what git looks like as of version 2.33.0 (August 2021).
+**Note (August 2021):** This tutorial was originally created by [Na-Rae Han (University of Pittsburgh)](http://www.pitt.edu/~naraehan/) for a 2019 workshop; the original tutorial is [here](https://github.com/mcdonn/LSA2019-Reproducible-Research/blob/master/intro_to_git.md). The version you're reading right now was lightly adapted by [Dan Villarreal (University of Pittsburgh)](https://www.linguistics.pitt.edu/people/dan-villarreal) to reflect changes in Git's behavior as of version 2.33.0. Thanks to the original authors for making these materials available.
 
 The materials below have been adapted from the excellent lessons by the Software Carpentry, which they have generously made available through the [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/). For each of the sections, we encourage you to visit [Software Carpentry's original lesson page](http://swcarpentry.github.io/git-novice/) for more in-depth content. Our workshop lessons below are based on their lessons 2 to 6. 
 
