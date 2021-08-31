@@ -1,5 +1,7 @@
 # Introduction to Git
 
+This tutorial has been lightly adapted by Dan Villarreal (University of Pittsburgh) to update what git looks like as of version 2.33.0 (August 2021).
+
 The materials below have been adapted from the excellent lessons by the Software Carpentry, which they have generously made available through the [CC BY 4.0 license](https://creativecommons.org/licenses/by/4.0/). For each of the sections, we encourage you to visit [Software Carpentry's original lesson page](http://swcarpentry.github.io/git-novice/) for more in-depth content. Our workshop lessons below are based on their lessons 2 to 6. 
 
 1.  [Setting Up Git](#setting-up-git)  
@@ -104,10 +106,10 @@ by asking Git to tell us the status of our project:
 
 ```bash
 $ git status
-# On branch master
-#
-# Initial commit
-#
+On branch main
+
+No commits yet
+
 nothing to commit (create/copy files and use "git add" to track)
 ```
 
@@ -141,7 +143,8 @@ An editor window will open up. Type the text below into the `zulu.txt` file:
 belongs to the Bantu language family
 ```
 
-To save and exit `nano`,  hit `Ctrl+X`, and then `y` to save. `zulu.txt` now contains a single line, which we can view by running the `cat` ("concatenate") command:
+To save and exit `nano`,  hit `Ctrl+X`, `y`, and `Enter`/`Return` to save. 
+`zulu.txt` now contains a single line, which we can view by running the `cat` ("concatenate") command:
 
 ```bash
 $ cat zulu.txt
@@ -152,14 +155,14 @@ If we check the status of our project again, Git tells us that it’s noticed th
 
 ```bash
 $ git status
-On branch master
+On branch main
 
-Initial commit
+No commits yet
 
 Untracked files:
    (use "git add <file>..." to include in what will be committed)
-
 	zulu.txt
+
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
@@ -174,9 +177,9 @@ and then check that the right thing happened:
 
 ```bash
 $ git status
-On branch master
+On branch main
 
-Initial commit
+No commits yet
 
 Changes to be committed:
   (use "git rm --cached <file>..." to unstage)
@@ -184,13 +187,24 @@ Changes to be committed:
 	new file:   zulu.txt
 ```
 
-Git now knows that it's supposed to keep track of `zulu.txt`, 
+When you ran `git add zulu.txt`, you might have gotten a cryptic message:
+
+```bash
+$ git add zulu.txt
+warning: LF will be replaced by CRLF in zulu.txt.
+The file will have its original line endings in your working directory
+```
+
+If you got this message, you're probably on a Windows machine. You can safely ignore it---it won't negatively affect your work.
+
+So where were we? Because you ran `git add zulu.txt`,
+git now knows that it's supposed to keep track of `zulu.txt`, 
 but it hasn't recorded these changes yet.
 To get it to do that, we need to run `git commit`:
 
 ```bash
 $ git commit -m "started notes on Zulu language"
-[master (root-commit) f22b25e] started notes on Zulu language
+[main (root-commit) f22b25e] started notes on Zulu language
  1 file changed, 1 insertion(+)
  create mode 100644 zulu.txt
 ```
@@ -199,6 +213,7 @@ When we run `git commit`,
 Git takes everything we have told it to save by using `git add`
 and stores a copy permanently inside the special `.git` directory.
 This permanent copy is called a **commit** and its short identifier is `f22b25e` in this example.
+(You will see a different short identifier than `f22b25e`.)
 
 We use the `-m` flag (for "message")
 to record a short, descriptive, and specific comment that will help us remember later on what we did and why.
@@ -210,8 +225,8 @@ If we run `git status` now:
 
 ```bash
 $ git status
-On branch master
-nothing to commit, working directory clean
+On branch main
+nothing to commit, working tree clean
 ```
 
 it tells us everything is up to date.
@@ -220,7 +235,7 @@ we can ask Git to show us the project's history using `git log`:
 
 ```bash
 $ git log
-commit f22b25e3233b4645dabd0d81e651fe074bd8e73b
+commit f22b25e3233b4645dabd0d81e651fe074bd8e73b (HEAD -> main)
 Author: Henry Higgins <profhiggins@oxford.edu>
 Date:   Thu Aug 22 09:51:46 2018 -0400
 
@@ -247,15 +262,17 @@ belongs to the Bantu language family
 spoken in South Africa
 ```
 
+Go ahead and edit your `zulu.txt` so it matches Prof. Higgins's.
+
 When we run `git status` now,
 it tells us that a file it already knows about has been modified:
 
 ```bash
 $ git status
-On branch master
+On branch main
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
+  (use "git restore <file>..." to discard changes in working directory)
 
 	modified:   zulu.txt
 
@@ -284,7 +301,8 @@ index df0654a..315bf3a 100644
 +spoken in South Africa
 ```
 
-The output is cryptic, but to break it down into pieces:
+The output is cryptic (and again, ignore any warnings about LF and CRLF if you see them),
+but we can break it down into pieces:
 
 1.  The first line tells us that Git is producing output similar to the Unix `diff` command
     comparing the old and new versions of the file.
@@ -301,11 +319,10 @@ After reviewing our change, we go for committing:
 
 ```bash
 $ git commit -m "added region information"
-$ git status
-On branch master
+On branch main
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
+  (use "git restore <file>..." to discard changes in working directory)
 
 	modified:   zulu.txt
 
@@ -319,12 +336,12 @@ Let's fix that. We add *and then* commit:
 ```bash
 $ git add zulu.txt
 $ git commit -m "added region information"
-[master 34961b1] added region information
+[main 34961b1] added region information
  1 file changed, 1 insertion(+)
 ```
 
 Git insists that we **add files to the set we want to commit**
-before actually committing anything. Suppose we are working on multiple languages: say Zulu, Xhosa and Japanese, and just edited all of them to include region information.  All these files then can be git-added and committed in one swoop, as a version that reflects the same update across all files. Additionally, staging allows us to commit our
+before actually committing anything. Suppose we are working on multiple languages: say Zulu, Xhosa and Japanese, and just edited all of them to include region information.  All these files then can be git-added and committed in one fell swoop, as a version that reflects the same update across all files. Additionally, staging allows us to commit our
 changes in stages and capture changes in logical portions rather than
 only large batches.
 For example, suppose we're adding a few citations to relevant research to our thesis.
@@ -396,6 +413,9 @@ index 315bf3a..b36abfd 100644
 So far, so good:
 we've added one line to the end of the file
 (shown with a `+` in the first column).
+
+(By the way, you might have realized it by now, but if type only part of `zulu.txt` and then hit `Tab`, Git will fill in the rest of `zulu.txt` for you. A real time-saver!)
+
 Now let's put that change in the staging area
 and see what `git diff` reports:
 
@@ -424,7 +444,7 @@ Let's then save our changes through committing:
 
 ```bash
 $ git commit -m "added word order info"
-[master 005937f] added word order info
+[main 005937f] added word order info
  1 file changed, 1 insertion(+)
 ```
 
@@ -432,8 +452,8 @@ check our status:
 
 ```bash
 $ git status
-On branch master
-nothing to commit, working directory clean
+On branch main
+nothing to commit, working tree clean
 ```
 
 and look at the history of what we've done so far. By now, our log has gotten longer, so you will likely be thrown into pagination. You can hit `SPACE` to page down, and `q` to quit:  
@@ -527,7 +547,7 @@ commit 34961b159c27df3b475cfe4415d94a6d1fcd064d
 Author: Henry Higgins <profhiggins@oxford.edu>
 Date:   Thu Aug 22 10:07:21 2013 -0400
 
-    started notes on zulu
+    started notes on Zulu language
 
 diff --git a/zulu.txt b/zulu.txt
 new file mode 100644
@@ -548,7 +568,7 @@ while `HEAD~123` goes back 123 commits from where we are now.
 
 
 All right! So
-we can save changes to files and see what we've changed—now how
+we can save changes to files and see what we've changed---now how
 can we restore older versions of things? We need that, 
 as we realize Zulu is in fact not related to Spanish and decide to scrap that line. 
 Checking `git status` tells us that the file has been changed,
@@ -556,10 +576,10 @@ but those changes haven't been staged:
 
 ```bash
 $ git status
-On branch master
+On branch main
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
-  (use "git checkout -- <file>..." to discard changes in working directory)
+  (use "git restore <file>..." to discard changes in working directory)
 
 	modified:   zulu.txt
 
@@ -567,10 +587,10 @@ no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
 We can put things back to the state of last commit 
-by simply using `git checkout HEAD filename`:
+by using `git restore -s HEAD filename`:
 
 ```bash
-$ git checkout HEAD zulu.txt
+$ git restore -s HEAD zulu.txt
 $ cat zulu.txt
 belongs to the Bantu language family
 spoken in South Africa
@@ -578,15 +598,16 @@ word order: SVO
 ```
 
 As you might guess from its name,
-`git checkout` checks out (i.e., restores) an old version of a file.
+`git restore` restores an old version of a file.
 In this case,
 we're telling Git that we want to recover the version of the file recorded in `HEAD`,
-which is the last saved commit.
+which is the last saved commit (`-s` is for "source", so we're
+saying "restore the version from `HEAD`").
 If we want to go back even further,
 we can use a commit identifier instead:
 
 ```bash
-$ git checkout f22b25e zulu.txt
+$ git restore -s f22b25e zulu.txt
 $ cat zulu.txt
 belongs to the Bantu language family
 ```
@@ -594,25 +615,56 @@ belongs to the Bantu language family
 
 ```bash
 $ git status
-# On branch master
-Changes to be committed:
-  (use "git reset HEAD <file>..." to unstage)
-# Changes not staged for commit:
-#   (use "git add <file>..." to update what will be committed)
-#   (use "git checkout -- <file>..." to discard changes in working directory)
-#
-#	modified:   zulu.txt
-#
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   zulu.txt
+
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
 
 Notice that the changes are on the staging area. 
 If you decide to stick to this restored version, you will need to complete the process by committing, when the restored version will become the new `HEAD`. 
-If not, you can go back to the last commit point using `git checkout HEAD filename`:
+If not, you can go back to the last commit point using `git restore -s HEAD filename`:
 
 ```bash
-$ git checkout HEAD zulu.txt
+$ git restore -s HEAD zulu.txt
+$ cat zulu.txt
+belongs to the Bantu language family
+spoken in South Africa
+word order: SVO
+```
+
+Just to reiterate: if we want to change a file back to the way
+it was in a previous commit, we can use `git restore` to discard
+those changes. In fact, discarding the changes since the last 
+commit (`git restore -s HEAD <file>`)
+is a common enough operation that there's a shorthand for it:
+`git restore <file>`. Try it yourself:
+
+```bash
+$ nano zulu.txt
+$ cat zulu.txt
+belongs to the Bantu language family
+spoken in South Africa
+word order: SVO
+a close relative of French
+
+$ git status
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   zulu.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+$ git restore zulu.txt
+$ cat zulu.txt
+belongs to the Bantu language family
+spoken in South Africa
+word order: SVO
 ```
 
 
@@ -623,7 +675,7 @@ $ git checkout HEAD zulu.txt
 What if we have files that we do not want Git to track for us,
 like backup files created by our editor
 or intermediate files created during data analysis?
-Let's create a few dummy files:
+Let's create a few dummy files (`touch` creates empty files):
 
 ```bash
 $ mkdir results
@@ -634,14 +686,14 @@ and see what Git says:
 
 ```bash
 $ git status
-On branch master
+On branch main
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-
 	a.dat
 	b.dat
 	c.dat
 	results/
+
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
@@ -669,11 +721,11 @@ the output of `git status` is much cleaner:
 
 ```bash
 $ git status
-On branch master
+On branch main
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-
 	.gitignore
+	
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
@@ -681,14 +733,19 @@ The only thing Git notices now is the newly-created `.gitignore` file.
 You might think we wouldn't want to track it,
 but everyone we're sharing our repository with will probably want to ignore
 the same things that we're ignoring.
-Let's add and commit `.gitignore`:
+Let's add and commit `.gitignore` (remember that you can just type 
+`git add .gi` then `tab` and let Git do the dirty work for you!):
 
 ```bash
 $ git add .gitignore
 $ git commit -m "Ignore data files and the results folder."
+[main f10235c] Ignore data files
+ 1 file changed, 2 insertions(+)
+ create mode 100644 .gitignore
+
 $ git status
-# On branch master
-nothing to commit, working directory clean
+On branch main
+nothing to commit, working tree clean
 ```
 
 As a matter of fact, the workshop's repository has its own `.gitignore` file, which [is found here](.gitignore). You will see `.ipynb_checkpoints` and other common OS configuration files. 
