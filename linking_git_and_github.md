@@ -15,7 +15,7 @@ The materials below have been adapted from the excellent lessons by the Software
 Version control really comes into its own when we begin to collaborate with
 other people. Systems like Git allow us to sync up work between any two repositories.  In
 popular use cases, one copy operates as a central hub: most programmers use hosting
-services like [GitHub](https://github.com) to hold those master copies. 
+services like [GitHub](https://github.com) to hold those central copies. 
 Even if you are working by yourself, having a GitHub repository is an excellent backup strategy. 
 
 Let's start by setting up your `languages` project with your own GitHub repository.  Log in to GitHub, then click on the icon in the top right corner to create a new repository:
@@ -47,7 +47,7 @@ origin https://github.com/naraehan/languages.git (fetch)
 The name `origin` is a typical local nickname for your remote repository. Once it is set up, you are ready to use this command:
 
 ```bash
-$ git push origin master
+$ git push origin main
 ```
 
 That "**pushes**" the changes in your local repo out to the GitHub repo, thereby syncing up the two. This "pushing" step is typically the very last step of Git/GitHub workflow, which now looks like:
@@ -58,7 +58,7 @@ That "**pushes**" the changes in your local repo out to the GitHub repo, thereby
    1. `git add x y z` 
    1. `git status`, `git diff`, etc. (to confirm changes)
    1. `git commit -m "a message"`
-   1. `git push origin master` 
+   1. `git push origin main` 
 
    
 It's your time to try: go ahead add another Zulu language fact to `zulu.txt`: it has about 10 million speakers. You should follow the workflow above. 
@@ -75,13 +75,13 @@ Brad will then get an email message. He can also access the invitation via https
 That means the GitHub repo is more up-to-date than my own local repo on my laptop! What to do? The key is **pull**. Now that the remote repo can be ahead of my local copy, I need to have `pull` as an important first step of my workflow: 
 
 ```bash
-$ git pull origin master
+$ git pull origin main
 remote: Counting objects: 4, done.
 remote: Compressing objects: 100% (2/2), done.
 remote: Total 3 (delta 0), reused 3 (delta 0)
 Unpacking objects: 100% (3/3), done.
 From https://github.com/naraehan/languages
- * branch            master     -> FETCH_HEAD
+ * branch            main     -> FETCH_HEAD
 Updating 9272da5..29aba7c
 Fast-forward
  japanese.txt | 1 +
@@ -98,10 +98,10 @@ That "**pulls**" the changes in the GitHub repo and merges them onto my local re
  When working together, it is a good practice to make sure that you have an updated version of the
  repository: you should get into the habit of using `git pull` before starting work. The basic collaborative workflow therefore would be:
 
- * update your local repo with `git pull origin master`,
+ * update your local repo with `git pull origin main`,
  * make your changes and stage them with `git add`,
  * commit your changes with `git commit -m`, and
- * upload the changes to GitHub with `git push origin master`
+ * upload the changes to GitHub with `git push origin main`
 
 In between each step, you should use `git status`, `git diff`, `git show`, `git log`, etc. frequently to verify changes and orient yourself. 
 </td></tr></table></center>
@@ -128,13 +128,14 @@ has about 10 million speakers
 Brad and I then work on it in conjunction. Brad adds the line "a close relative of Xhosa". I add "one of South Africa's official languages"; after adding and committing, I try to push:
 
 ```bash
-$ git push origin master
+$ git push origin main
 To https://github.com/naraehan/languages.git
- ! [rejected]        master -> master (non-fast-forward)
+ ! [rejected]        main -> main (non-fast-forward)
 error: failed to push some refs to 'https://github.com/naraehan/languages.git'
-hint: Updates were rejected because the tip of your current branch is behind
-hint: its remote counterpart. Merge the remote changes (e.g. 'git pull')
-hint: before pushing again.
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 ```
 
@@ -145,14 +146,14 @@ What happened? Turns out Brad had pushed his change in the meantime, therefore m
 Git rejects the push because it detects that the remote repository has new updates that have not been incorporated into my local branch. What I have to do is **pull** the changes from GitHub, merge them into the copy I'm currently working in, and then push that. So I start by pulling:
 
 ```bash
-$ git pull origin master
+$ git pull origin main
 remote: Counting objects: 5, done.
 remote: Compressing objects: 100% (2/2), done.
 remote: Total 3 (delta 1), reused 3 (delta 1)
 Unpacking objects: 100% (3/3), done.
 From https://github.com/naraehan/languages
- * branch            master     -> FETCH_HEAD
-Auto-merging mars.txt
+ * branch            main     -> FETCH_HEAD
+Auto-merging zulu.txt
 CONFLICT (content): Merge conflict in zulu.txt
 Automatic merge failed; fix conflicts and then commit the result.
 ```
@@ -192,34 +193,34 @@ To finish merging, I need to add and then commit the file. First add `zulu.txt` 
 ```bash
 $ git add zulu.txt
 $ git status
-On branch master
+On branch main
 All conflicts fixed but you are still merging.
   (use "git commit" to conclude merge)
 
 Changes to be committed:
 
-	modified:   mars.txt
+	modified:   zulu.txt
 ```
 
 Then, committing finally completes the local merging process:
 
 ```bash
 $ git commit -m "Merge changes from GitHub"
-[master 2abf2b1] Merge changes from GitHub
+[main 2abf2b1] Merge changes from GitHub
 ```
 
 Am I done? Not remotely (pun intended). My local repository is looking good now, with `zulu.txt` containing both of our new lines. But I still need to push the changes out to the GitHub remote repo via `git push`: 
 
 
 ```bash
-$ git push origin master
+$ git push origin main
 Counting objects: 10, done.
 Delta compression using up to 4 threads.
 Compressing objects: 100% (6/6), done.
 Writing objects: 100% (6/6), 697 bytes, done.
 Total 6 (delta 2), reused 0 (delta 0)
 To https://github.com/naraehan/languages.git
-   dabb4c8..2abf2b1  master -> master
+   dabb4c8..2abf2b1  main -> main
 ```
 
 Finally my local repo and the remote GitHub repo are in sync, so the job is done on my end. It is then up to Brad to execute `git pull` on his end, so the three-way syncing process is finally complete. 
@@ -228,7 +229,7 @@ Finally my local repo and the remote GitHub repo are in sync, so the job is done
 Git’s ability to resolve conflicts is very useful, but conflict resolution costs time and effort, and can introduce errors if conflicts are not resolved correctly. If you find yourself resolving a lot of conflicts in a project, consider these technical approaches to reducing them:
 
 * Pull more frequently, especially before starting new work
-* Use topic branches to segregate work, merging to master when complete (Note: we did not cover **branches**)
+* Use topic branches to segregate work, merging to main when complete (Note: we did not cover **branches**)
 * Make smaller more atomic commits
 * Where logically appropriate, break large files into smaller ones so that it is less likely that two authors will alter the same file simultaneously
 
